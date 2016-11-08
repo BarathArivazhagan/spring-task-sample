@@ -56,7 +56,7 @@ public class TestRestaurantService {
 
 		long totalSatisfactionIndex=knapSackAlgorithm(satisfactionIndexes, timeTakens, totalMinutesEntered);
       
-       return "Total Minutes "+totalMinutesEntered+" Total satisfaction index  "+totalSatisfactionIndex;
+     		return "Total Minutes "+totalMinutesEntered+" Total satisfaction index  "+totalSatisfactionIndex;
 	}
 	
 
@@ -69,14 +69,13 @@ public class TestRestaurantService {
 	 */
 	  public long knapSackAlgorithm(long[] satisfactionIndexes, long[] timeTakens, long enteredMinutes) {
 	    	
-		
-		  	int totalNoOfItems = timeTakens.length;
-	    	long[][] V = new long[totalNoOfItems + 1][(int) (enteredMinutes + 1)];	      
+		int totalNoOfItems = timeTakens.length;
+	    	long[][] matrix = new long[totalNoOfItems + 1][(int) (enteredMinutes + 1)];	      
 	        for (int col = 0; col <= enteredMinutes; col++) {
-	            V[0][col] = 0;	        }
+	        	matrix[0][col] = 0;	        }
 	        
 	        for (int row = 0; row <= totalNoOfItems; row++) {
-	            V[row][0] = 0;
+	        	matrix[row][0] = 0;
 	        }
 	        for (int item=1;item<=totalNoOfItems;item++){
 	          
@@ -84,16 +83,16 @@ public class TestRestaurantService {
 	              
 	                if (timeTakens[item-1]<=weight){
 	                  
-	                    V[item][weight]=Math.max (satisfactionIndexes[item-1]+V[item-1][(int) (weight-timeTakens[item-1])], V[item-1][weight]);
+	                	matrix[item][weight]=Math.max (satisfactionIndexes[item-1]+matrix[item-1][(int) (weight-timeTakens[item-1])], matrix[item-1][weight]);
 	                }
 	                else {
 	                   
-	                    V[item][weight]=V[item-1][weight];
+	                	matrix[item][weight]=matrix[item-1][weight];
 	                }
 	            }
 	        }
 
-	        return V[totalNoOfItems][ (int) enteredMinutes];
+	        return matrix[totalNoOfItems][ (int) enteredMinutes];
 	    }
 	  
 	  
