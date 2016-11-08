@@ -13,7 +13,7 @@
    Let total no of items  be totalNoOfItems
    Let matrix be  matrix[totalNoOfItems + 1][minutes + 1)]
    
-   Set all columns at row 0 to be 0 if 
+   Set all columns at row 0 to be 0 if time entered is less than the row
    
    Set the first row to zero if row is less than or equal to total nof of times 
    
