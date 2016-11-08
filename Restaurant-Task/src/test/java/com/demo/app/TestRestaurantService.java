@@ -45,6 +45,62 @@ public class TestRestaurantService {
 	}
 	
 	/**
+	 * This method is used to find maximum satisfaction index based on minutes entered 
+	 * as per knapsack algorithm
+	 * @param totalMinutesEntered
+	 * @return
+	 */
+	public String handleKnapSackLogic(long totalMinutesEntered){
+		
+		long[] satisfactionIndexes= this.getAllSatisfactionIndex().stream().mapToLong(x-> x).toArray();
+
+		long[] timeTakens= this.getAllTimeTaken().stream().mapToLong(x -> x).toArray();		
+
+		long totalSatisfactionIndex=knapSackAlgorithm(satisfactionIndexes, timeTakens, totalMinutesEntered);
+      
+       return "Total Minutes "+totalMinutesEntered+" Total satisfaction index  "+totalSatisfactionIndex;
+	}
+	
+
+	/**
+	 * This method is used to populate the matrix as per knapsack algorithm
+	 * @param satisfactionIndexes
+	 * @param timeTakens
+	 * @param enteredMinutes
+	 * @return
+	 */
+	  public long knapSackAlgorithm(long[] satisfactionIndexes, long[] timeTakens, long enteredMinutes) {
+	    	
+		
+		  	int totalNoOfItems = timeTakens.length;
+	    	long[][] V = new long[totalNoOfItems + 1][(int) (enteredMinutes + 1)];	      
+	        for (int col = 0; col <= enteredMinutes; col++) {
+	            V[0][col] = 0;	        }
+	        
+	        for (int row = 0; row <= totalNoOfItems; row++) {
+	            V[row][0] = 0;
+	        }
+	        for (int item=1;item<=totalNoOfItems;item++){
+	          
+	            for (int weight=1;weight<=enteredMinutes;weight++){
+	              
+	                if (timeTakens[item-1]<=weight){
+	                  
+	                    V[item][weight]=Math.max (satisfactionIndexes[item-1]+V[item-1][(int) (weight-timeTakens[item-1])], V[item-1][weight]);
+	                }
+	                else {
+	                   
+	                    V[item][weight]=V[item-1][weight];
+	                }
+	            }
+	        }
+
+	        return V[totalNoOfItems][ (int) enteredMinutes];
+	    }
+	  
+	  
+	
+	/**
 	 * This method handles the logic of finding the maximum satisfaction index 
 	 * for the entered minutes
 	 * 
@@ -485,7 +541,25 @@ public class TestRestaurantService {
 	}
 	
 	
-
+	  
+		 /**
+		  * This method is used to find all the indexes of the items given
+		  * 
+		  * @return list of satisfaction indexes
+		  */
+		public List<Long> getAllSatisfactionIndex(){
+			return items.stream().map(Item::getSatisfactionIndex).collect(Collectors.toList());
+		}
+		
+		 /**
+		  * This method is used to find all the time taken of the items given
+		  * 
+		  * @return list of satisfaction indexes
+		  */
+		public List<Long> getAllTimeTaken(){
+			return items.stream().map(Item::getTimeTaken).collect(Collectors.toList());
+		}
+		
 	
 	
 	

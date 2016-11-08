@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +47,85 @@ public class RestaurantService {
 	}
 	
 	/**
+	 * This method is used to find maximum satisfaction index based on minutes entered 
+	 * as per knapsack algorithm
+	 * @param totalMinutesEntered
+	 * @return
+	 */
+	public String handleKnapSackLogic(long totalMinutesEntered){
+		
+		long[] satisfactionIndexes= this.getAllSatisfactionIndex().stream().mapToLong(x-> x).toArray();
+
+		long[] timeTakens= this.getAllTimeTaken().stream().mapToLong(x -> x).toArray();		
+
+		long totalSatisfactionIndex=knapSackAlgorithm(satisfactionIndexes, timeTakens, totalMinutesEntered);
+      
+       return "Total Minutes "+totalMinutesEntered+" Total satisfaction index  "+totalSatisfactionIndex;
+	}
+	
+
+	/**
+	 * This method is used to populate the matrix as per knapsack algorithm
+	 * @param satisfactionIndexes
+	 * @param timeTakens
+	 * @param enteredMinutes
+	 * @return
+	 */
+	  public long knapSackAlgorithm(long[] satisfactionIndexes, long[] timeTakens, long enteredMinutes) {
+	    	
+		
+		  	int totalNoOfItems = timeTakens.length;
+	    	long[][] V = new long[totalNoOfItems + 1][(int) (enteredMinutes + 1)];	      
+	        for (int col = 0; col <= enteredMinutes; col++) {
+	            V[0][col] = 0;	        }
+	        
+	        for (int row = 0; row <= totalNoOfItems; row++) {
+	            V[row][0] = 0;
+	        }
+	        for (int item=1;item<=totalNoOfItems;item++){
+	          
+	            for (int weight=1;weight<=enteredMinutes;weight++){
+	              
+	                if (timeTakens[item-1]<=weight){
+	                  
+	                    V[item][weight]=Math.max (satisfactionIndexes[item-1]+V[item-1][(int) (weight-timeTakens[item-1])], V[item-1][weight]);
+	                }
+	                else {
+	                   
+	                    V[item][weight]=V[item-1][weight];
+	                }
+	            }
+	        }
+
+	        return V[totalNoOfItems][ (int) enteredMinutes];
+	    }
+	  
+	  
+	 /**
+	  * This method is used to find all the indexes of the items given
+	  * 
+	  * @return list of satisfaction indexes
+	  */
+	public List<Long> getAllSatisfactionIndex(){
+		return items.stream().map(Item::getSatisfactionIndex).collect(Collectors.toList());
+	}
+	
+	 /**
+	  * This method is used to find all the time taken of the items given
+	  * 
+	  * @return list of satisfaction indexes
+	  */
+	public List<Long> getAllTimeTaken(){
+		return items.stream().map(Item::getTimeTaken).collect(Collectors.toList());
+	}
+	
+	/**
 	 * This method handles the logic of finding the maximum satisfaction index 
 	 * for the entered minutes
 	 * 
 	 * @param enteredMinutes
 	 * @return String 
+	 * 
 	 */
 	public String handleLogic(long totalMinutesEntered){	
 		
@@ -66,7 +142,7 @@ public class RestaurantService {
 				
 				if( remainingItems !=null && !remainingItems.isEmpty()){
 					nearestItem =findBestNearestItem(timeDifference,remainingItems);
-			
+						
 					if(!isTimeTakenAlready(nearestItem.getTimeTakenCombos(), timesTaken)){
 						timesTaken.addAll(nearestItem.getTimeTakenCombos());						
 						totalSatisfactionIndex += nearestItem.getSatisfactionIndex();
@@ -124,12 +200,17 @@ public class RestaurantService {
 			do{				
 				List<Item> remainingItems=getRemainingItemsList(itemsWithMaxSatisfactionIndex,timesTaken,timeDifference);			
 				if( remainingItems !=null && !remainingItems.isEmpty()){
-					nearestItem =findBestNearestItem(timeDifference,remainingItems);			
+					nearestItem =findBestNearestItem(timeDifference,remainingItems);
+					long timeDiff=currentItem.getTimeTaken()-nearestItem.getTimeTaken();
+					List<Item> sortedItems=sortItemsWithinTime(timeDiff,remainingItems);
+					if(sortedItems.size() < remainingItems.size()){
+						nearestItem =findBestNearestItem(timeDifference,sortedItems);
+					}
 					if(!isTimeTakenAlready(nearestItem.getTimeTakenCombos(), timesTaken)){
 						timesTaken.addAll(nearestItem.getTimeTakenCombos());						
 						totalSatisfactionIndex += nearestItem.getSatisfactionIndex();
 					}else{						
-						nearestItem=this.getItem(findBestWithinRemainingItems(remainingItems).getTimeTaken());
+						nearestItem=findBestWithinRemainingItems(remainingItems);
 						totalSatisfactionIndex += nearestItem.getSatisfactionIndex();
 						timesTaken.add( nearestItem.getTimeTaken());
 					}
@@ -154,6 +235,11 @@ public class RestaurantService {
 		return itemsWithMaxSatisfactionIndex;
 	}	
 	
+	
+	
+	public List<Item> sortItemsWithinTime(long time,List<Item> items){
+		return items.stream().filter(item -> item.getTimeTaken() < time).collect(Collectors.toList());
+	}
 	
 	/**
 	 * This  method finds the best item with maximum satisfaction index from the list of items

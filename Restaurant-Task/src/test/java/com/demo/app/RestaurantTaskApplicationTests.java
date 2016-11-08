@@ -1,3 +1,4 @@
+
 package com.demo.app;
 
 import org.junit.Test;
@@ -142,10 +143,24 @@ public class RestaurantTaskApplicationTests {
 		}
 		
 		@Test
+		public  void testKnapSackLogic() throws Exception {
+			long totalMinutesEntered=10000;
+			long[] satisfactionIndexes= service.getAllSatisfactionIndex().stream().mapToLong(x-> x).toArray();
+
+			long[] timeTakens= service.getAllTimeTaken().stream().mapToLong(x -> x).toArray();		
+
+			long totalSatisfactionIndex=service.knapSackAlgorithm(satisfactionIndexes, timeTakens, totalMinutesEntered);
+	      
+	       logger.info( "Total Minutes "+totalMinutesEntered+" Total satisfaction index  "+totalSatisfactionIndex);
+		       
+		}
+	
+		  
+		@Test
 		public void testLogic(){
 			
 			
-			long totalMinutesEntered=10000;			
+			long totalMinutesEntered=166;			
 			long totalSatisfactionIndex=0;
 			long leastTimeTaken=service.getLeastTimeTaken();
 			long timeDifference=totalMinutesEntered;
@@ -207,7 +222,7 @@ public class RestaurantTaskApplicationTests {
 				Item currentItem= items.get(i);
 				Item previousItem=items.get(i-1);
 				long timeDifference=currentItem.getTimeTaken();
-				//long timeDifference=enteredMinutes;
+				
 				Item nearestItem=null;
 				if(logger.isDebugEnabled()){
 					logger.debug("Current ITEM "+currentItem.toString());
@@ -227,8 +242,11 @@ public class RestaurantTaskApplicationTests {
 							timesTaken.addAll(nearestItem.getTimeTakenCombos());							
 							totalSatisfactionIndex += nearestItem.getSatisfactionIndex();
 						}else{
-						
-							nearestItem=service.getItem(service.findBestWithinRemainingItems(remainingItems).getTimeTaken());
+							long timeDiff=currentItem.getTimeTaken()- nearestItem.getTimeTaken();
+							List<Long> remainingTimes=nearestItem.getTimeTakenCombos().stream().filter( time -> time <= timeDiff).collect(Collectors.toList());
+							remainingItems=service.getRemainingItemsList(remainingItems,remainingTimes,timeDifference);
+							nearestItem =service.findBestNearestItem(timeDifference,remainingItems);
+							nearestItem=service.findBestWithinRemainingItems(remainingItems);
 							totalSatisfactionIndex += nearestItem.getSatisfactionIndex();
 							timesTaken.add( nearestItem.getTimeTaken());
 						}
@@ -238,8 +256,7 @@ public class RestaurantTaskApplicationTests {
 					}else{
 						timeDifference=0;
 					}
-						System.out.println("time difference "+timeDifference);
-						System.out.println("Satisfaction indsex  "+totalSatisfactionIndex);
+
 					
 					
 				}while(timeDifference >= leastTimeTaken);
@@ -256,7 +273,7 @@ public class RestaurantTaskApplicationTests {
 				
 				
 				itemsWithMaxSatisfactionIndex.add(new Item(i,totalSatisfactionIndex,currentItem.getTimeTaken(),timesTaken));			
-			
+				itemsWithMaxSatisfactionIndex.forEach(System.out::println);
 			}
 			
 			
