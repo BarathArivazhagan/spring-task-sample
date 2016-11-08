@@ -1,0 +1,2 @@
+
+Approach used to find the maximum satisfaction index :
