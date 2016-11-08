@@ -3,6 +3,7 @@ package com.demo.app;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.util.StringUtils;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @SpringBootApplication
 @RestController
-public class RestaurantTaskApplication {
+public class RestaurantTaskApplication implements CommandLineRunner {
 	
 		
 		private static final Logger logger=LoggerFactory.getLogger(RestaurantTaskApplication.class);
@@ -49,7 +50,7 @@ public class RestaurantTaskApplication {
 			String outputMessage=null;
 			
 			if(!StringUtils.isEmpty(minutes)){
-				outputMessage=service.handleLogic(minutes);
+				outputMessage=service.handleKnapSackLogic(minutes);
 			}else{
 				outputMessage="Wrong input passed, Please pass in correct input";
 			}
@@ -69,8 +70,8 @@ public class RestaurantTaskApplication {
 		 */
 		@GetMapping("/")
 		public String welcome(){
-			
-			return "Welcome Mr.Gordon Ramsey to the Restaurant";
+			long enteredMinutes=10000;
+			return service.handleKnapSackLogic(enteredMinutes);
 		}
 		
 		/**
@@ -82,6 +83,13 @@ public class RestaurantTaskApplication {
 		@ExceptionHandler(Exception.class)
 		public String handleException(Exception ex){
 			return ex.getMessage();
+		}
+
+		@Override
+		public void run(String... arg0) throws Exception {
+			
+			logger.info(service.handleKnapSackLogic(10000));
+			
 		}
 		
 	

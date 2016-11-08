@@ -1,7 +1,7 @@
 package com.demo.app.model;
 
 
-import java.util.List;
+
 
 public class Item {
 	
@@ -11,23 +11,17 @@ public class Item {
 	
 	private long timeTaken;
 	
-	private List<Long> timeTakenCombos;
 	
-	public Item(long itemNo, long satisfactionIndex, long timeTaken, List<Long> timeTakenCombos) {
+	
+	public Item(long itemNo, long satisfactionIndex, long timeTaken) {
 		super();
 		this.itemNo = itemNo;
 		this.satisfactionIndex = satisfactionIndex;
 		this.timeTaken = timeTaken;
-		this.timeTakenCombos = timeTakenCombos;
+		
 	}
 
-	public List<Long> getTimeTakenCombos() {
-		return timeTakenCombos;
-	}
-
-	public void setTimeTakenCombos(List<Long> timeTakenCombos) {
-		this.timeTakenCombos = timeTakenCombos;
-	}
+	
 
 	public long getItemNo() {
 		return itemNo;
@@ -53,13 +47,7 @@ public class Item {
 		this.timeTaken = timeTaken;
 	}
 
-	public Item(long itemNo, long satisfactionIndex, long timeTaken) {
-		super();
-		this.itemNo = itemNo;
-		this.satisfactionIndex = satisfactionIndex;
-		this.timeTaken = timeTaken;
-	}
-
+	
 	public Item() {
 		super();
 		
@@ -69,11 +57,13 @@ public class Item {
 
 	
 
+
 	@Override
 	public String toString() {
-		return "Item [itemNo=" + itemNo + ", satisfactionIndex=" + satisfactionIndex + ", timeTaken=" + timeTaken
-				+ ", timeTakenCombos=" + timeTakenCombos + "]";
+		return "Item [itemNo=" + itemNo + ", satisfactionIndex=" + satisfactionIndex + ", timeTaken=" + timeTaken + "]";
 	}
+
+
 
 	@Override
 	public int hashCode() {
