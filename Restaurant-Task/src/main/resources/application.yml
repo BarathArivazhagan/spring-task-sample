@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: Spring-Restaurant-Task
+
+    
+server:
+  port: 8080
+  
+
+data:
+  file: 
+    location: classpath:data.txt
