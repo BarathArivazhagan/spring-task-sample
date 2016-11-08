@@ -1,2 +1,67 @@
 
 Approach used to find the maximum satisfaction index :
+
+
+Approach :
+
+Sort the list of items starting with least time taken
+Find the best combination of time taken/taken`s for all the items starting with least time taken
+    
+ Example: 
+ 
+consider below as the result of step 1 :
+
+ Item [satisfactionIndex=37336, timeTaken=7]
+Item [satisfactionIndex=41595, timeTaken=9]
+Item [satisfactionIndex=46043, timeTaken=12]
+Item [satisfactionIndex=28636, timeTaken=14]
+Item [satisfactionIndex=28550, timeTaken=25]
+
+To find the best combination of time taken/taken`s from step 1 : 
+
+Populate the consolidated table simultaneously with best combination of time taken/taken`s from from step 1 by considering as below:
+
+2.1: For first iteration : consolidated table is pre populated with index of least time taken 
+
+2.2 : For other iterations :  
+
+ Let current Item: next item from step 1
+Let  previous Item : previous  item from  step 1
+
+find the nearest item* from list of items with time taken less than current item`s time taken
+
+IF: if time taken for an item is already consumed, find the list of remaining items from step 1 below the time difference and find the maximum satisfaction index of an Item among the remaining items and add its corresponding time taken to the existing combination of time taken`s.
+
+find the time difference = sum of all time taken`s found - current` time taken
+
+
+IF: time difference < least time taken	CONTINUE step 2.2
+
+Add all the satisfaction index of combination of time taken`s used to find the maximum satisfaction index for the time taken.
+
+
+IF: current item`s  satisfaction index > total satisfaction index after the sum
+
+THEN : total satisfaction index = current item`s  satisfaction index
+
+Result:
+
+Consolidated table formed with best combination of time taken/taken`s from from step 1 using above process will look like below :
+
+Item [satisfactionIndex=37336, timeTaken=7, timeTakenCombos=[7]]
+Item [ satisfactionIndex=41595, timeTaken=9, timeTakenCombos=[9]]
+Item [satisfactionIndex=46043, timeTaken=12, timeTakenCombos=[12]]
+Item [satisfactionIndex=46043, timeTaken=14, timeTakenCombos=[12]]
+Item [satisfactionIndex=87638, timeTaken=25, timeTakenCombos=[12, 9]]
+Item [satisfactionIndex=153610, timeTaken=43, timeTakenCombos=[12, 9,7,14]]
+
+
+3. Find the best nearest item from step 2 and continue step 2.2 until minutes entered is less than least time taken from the list of items
+
+
+Note: best nearest item is the item which is having highest satisfaction index with least time taken from the list of items
+
+Maximum satisfaction index  obtained for 10000 minutes :
+
+Total Minutes 10000 Total satisfaction index 2182384
+
