@@ -1,0 +1,17 @@
+{
+    "type": "user",
+    "companyName": "teqni",
+    "regNumber": "12345",
+    "dob": "16-10-1992",
+    "email": "vihangshah16@gmail.com",
+    "password": "12345678",
+    "confirmPassword": "12345678",
+    "enabled" : true,
+    "address":{
+        "line1": "f-12",
+        "line2": "e city",
+       "state": "ka",
+       "country": "in",
+      "zipCode": "1235"
+     }
+}
