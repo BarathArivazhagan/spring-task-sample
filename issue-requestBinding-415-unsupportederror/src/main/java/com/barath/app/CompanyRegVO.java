@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class CompanyRegVO {
 	
 	private String companyName;
-	private String regNumber;
+	private Integer regNumber;
 	private String password;
 	private String confirmPassword;
 	private String type;
@@ -20,10 +20,10 @@ public class CompanyRegVO {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-	public String getRegNumber() {
+	public Integer getRegNumber() {
 		return regNumber;
 	}
-	public void setRegNumber(String regNumber) {
+	public void setRegNumber(Integer regNumber) {
 		this.regNumber = regNumber;
 	}
 	public String getPassword() {
@@ -68,7 +68,7 @@ public class CompanyRegVO {
 	public void setAddress(AddressVO address) {
 		this.address = address;
 	}
-	public CompanyRegVO(String companyName, String regNumber, String password, String confirmPassword, String type,
+	public CompanyRegVO(String companyName, Integer regNumber, String password, String confirmPassword, String type,
 			String email, String dob, Boolean enabled, AddressVO address) {
 		super();
 		this.companyName = companyName;
