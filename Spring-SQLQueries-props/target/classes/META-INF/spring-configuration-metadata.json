@@ -1,0 +1,13 @@
+{
+  "groups": [{
+    "name": "",
+    "type": "com.barath.app.SqlQueries",
+    "sourceType": "com.barath.app.SqlQueries"
+  }],
+  "properties": [{
+    "name": "queries",
+    "type": "java.util.Map<java.lang.String,java.lang.String>",
+    "sourceType": "com.barath.app.SqlQueries"
+  }],
+  "hints": []
+}
