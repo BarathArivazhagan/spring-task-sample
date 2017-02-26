@@ -13,6 +13,3 @@ spring:
         native:
           search-locations: classpath:/
 
-
-level: error
-            
