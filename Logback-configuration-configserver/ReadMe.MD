@@ -62,8 +62,8 @@ management:
 logging:
   config: classpath:log/logback.xml
   ```
-  
- ###### logback.xml: 
+  
+ logback.xml: 
  ``` 
   <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
@@ -87,8 +87,8 @@ logging:
 </configuration>
       
   ```
-  
- #### Output :
+  
+ Output :
  ```
  level value is error
 2017-02-26 11:23:34 [restartedMain] ERROR c.b.a.EurekaClientLogServicesApplication - Error message
