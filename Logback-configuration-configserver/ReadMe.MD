@@ -39,8 +39,8 @@ spring:
   cloud:
     config:      
        uri: http://localhost:8888
-       ```
-application.yml : 
+```
+##### application.yml : 
 
 ```
 server:
@@ -57,8 +57,6 @@ management:
   security:
     enabled: false
     
-
- 
 logging:
   config: classpath:log/logback.xml
   ```
