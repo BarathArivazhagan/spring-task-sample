@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
- <springProperty scope="" name="LEVEL" source="level"   defaultValue="debug"/>  
-<!--  <property name="LEVEL" value="${level}"/>  -->  
-   <!--  <property name="LEVEL" value="info"/>  -->
+ <springProperty scope="context" name="LEVEL" source="level"   defaultValue="info"/>  
+
    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<Pattern>
