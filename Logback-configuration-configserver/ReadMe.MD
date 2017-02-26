@@ -7,7 +7,7 @@
 
 #### Eureka-Config-Server 
 
-application.yml : 
+##### application.yml : 
 ```
 server:
   port: 8888
@@ -23,7 +23,7 @@ spring:
         native:
           search-locations: classpath:/
 ```
-eureka-client-logservices.yml:
+##### eureka-client-logservices.yml:
 
 ```
 level: error
@@ -31,7 +31,7 @@ level: error
 
 #### Eureka-Client-LogServices
 
-bootstrap.yml: 
+##### bootstrap.yml: 
 ```
 spring:
   application:
@@ -58,7 +58,33 @@ management:
     enabled: false
     
 
-  # logback.xml is defined here inorder to override the default configuration 
+ 
 logging:
   config: classpath:log/logback.xml
   ```
+  
+  ##### log/logback.xml: 
+ ``` 
+  <?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+ <springProperty scope="" name="LEVEL" source="level"   defaultValue="info"/>  
+
+   <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+	<logger name="com.barath.app" level="${LEVEL}"
+		additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+   
+    <root level="${LEVEL}">
+         <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
+      
+  ```
+  
