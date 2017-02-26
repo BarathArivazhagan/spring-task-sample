@@ -5,6 +5,8 @@
 * Eureka-Config-Server: Configuration server running at 8888
 * Eureka-Client-logservices : Eureka discovery client running at 8089
 
+
+
 #### Eureka-Config-Server 
 
 ##### application.yml : 
@@ -61,7 +63,7 @@ logging:
   config: classpath:log/logback.xml
   ```
   
-  ##### log/logback.xml: 
+  ##### logback.xml: 
  ``` 
   <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
