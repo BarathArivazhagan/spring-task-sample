@@ -1,0 +1,74 @@
+<div class="form-group"><label class='control-label'>{{'label.pageframeworkeditor.popover.label' | langProperty}}</label>
+	<input type='text' ng-model="messages[item.id + '.label']" validator="[required]" class='form-control'/>
+</div>
+
+<div ng-controller="ArisServiceConfigurationCtrl">
+
+	<div class="form-group"><label class='control-label'>Action type</label>
+		<select name="serviceType" id="serviceType" ng-model="serviceType" ng-change="onActionChange()" class='form-control'>
+					<option value="manual">Manual</option>
+					<option value="service">Service</option>
+
+		</select>
+	</div>
+
+		<div ng-show="isManual">
+				<div class="form-group"><label class='control-label'>{{'label.pageframeworkeditor.popover.height' | langProperty}}</label>
+					<input type='text' ng-model="item.templateOptions.height" class='form-control'/>
+				</div>
+
+				<div class="form-group"><label class='control-label'>{{'label.pageframeworkeditor.popover.width' | langProperty}}</label>
+					<input type='text' ng-model="item.templateOptions.width" class='form-control'/>
+				</div>
+
+				<div class="form-group"><label class='control-label'>DataSource Name</label>
+					<input type='text' ng-model="item.templateOptions.dataSource" class='form-control'/>
+				</div>
+
+				<div class="form-group"><label class='control-label'>Data Model Name</label>
+					<input type='text' ng-model="item.templateOptions.modelName" class='form-control'/>
+				</div>
+
+				<div class="form-group"><label class='control-label'>Chart Title</label>
+					<input type='text' ng-model="item.templateOptions.chartTitle" class='form-control'/>
+				</div>
+
+
+				<div class="form-group"><label class='control-label'>Value attribute</label>
+					<input type='text' ng-model="item.templateOptions.nameAttr" class='form-control'/>
+				</div>
+
+
+				<div class="form-group"><label class='control-label'>Name attribute</label>
+					<input type='text' ng-model="item.templateOptions.valAttr" class='form-control'/>
+				</div>
+
+				<div class="form-group"><label class='control-label'>Radius </label>
+					<input type='text' ng-model="item.templateOptions.radius" class='form-control'/>
+				</div>
+
+				<div class="form-group"><label class='control-label'>Inner Radius </label>
+					<input type='text' ng-model="item.templateOptions.innerradius" class='form-control'/>
+				</div>
+
+				<div class="form-group"><label class='control-label'>Exportable</label>
+					<input type="checkbox" name="{{options.id}}" id="{{options.id}}"
+							   ng-model="item.templateOptions.exportable"
+							    ng-true-value="{{to.valueTrue !== undefined?'\'' + to.valueTrue + '\'':true}}"
+							   ng-false-value="{{to.valueFalse !== undefined?'\'' + to.valueFalse + '\'':false}}"/>
+
+				</div>
+		</div>
+
+		<div ng-show="isService">
+			<div class="form-group"><label class='control-label'>Service Name</label>
+				<input type='text' ng-model="item.templateOptions.serviceName" class='form-control'/>
+			</div>
+
+			<div class="form-group"><label class='control-label'>Method Name</label>
+				<input type='text' ng-model="item.templateOptions.methodName" class='form-control'/>
+			</div>
+
+
+		</div>
+</div>
